@@ -78,7 +78,7 @@ function getTempDir()
 
 function copyFile()
 {
-	cp -f "$1" "$2" || \
+	sudo cp -f "$1" "$2" || \
 		panic $? "Failed to copy file $1 to $2"
 }
 
@@ -307,13 +307,13 @@ if [[ "$1" ]]; then
 fi
 
 #下载一些基础文件和模板文件
-downloadGithubTarball "https://codeload.github.com/AloneMonkey/MonkeyDev/tar.gz/$branch" "$MonkeyDevPath" "MonkeyDev base"
-downloadGithubTarball "https://codeload.github.com/AloneMonkey/MonkeyDev-Xcode-Templates/tar.gz/$branch" "$MonkeyDevPath/templates" "Xcode templates"
+downloadGithubTarball "https://codeload.github.com/fxfyio/MonkeyDev/tar.gz/$branch" "$MonkeyDevPath" "MonkeyDev base"
+downloadGithubTarball "https://codeload.github.com/fxfyio/MonkeyDev-Xcode-Templates/tar.gz/$branch" "$MonkeyDevPath/templates" "Xcode templates"
 
 #下载frida-ios-dump
 echo "Downloading frida-ios-dump from Github..."
-downloadFile "https://raw.githubusercontent.com/AloneMonkey/frida-ios-dump/3.x/dump.py" "$MonkeyDevPath/bin/dump.py"
-downloadFile "https://raw.githubusercontent.com/AloneMonkey/frida-ios-dump/3.x/dump.js" "$MonkeyDevPath/bin/dump.js"
+downloadFile "https://raw.githubusercontent.com/fxfyio/frida-ios-dump/3.x/dump.py" "$MonkeyDevPath/bin/dump.py"
+downloadFile "https://raw.githubusercontent.com/fxfyio/frida-ios-dump/3.x/dump.js" "$MonkeyDevPath/bin/dump.js"
 
 chmod +x "$MonkeyDevPath/bin/dump.py"
 
@@ -347,7 +347,7 @@ addToFileIfMissing "$userBashProfileFile" "^(export)? *PATH=.*(\\\$MonkeyDevPath
 iosSdkPlatformPath=`getSdkProperty iphoneos PlatformPath`
 macosSdkPlatformPath=`getSdkProperty macosx PlatformPath`
 
-specificationFile=$(cd $iosSdkPlatformPath/../../.. && pwd)/PlugIns/IDEiOSSupportCore.ideplugin/Contents/Resources/Embedded-Device.xcspec
+specificationFile=$(cd $iosSdkPlatformPath/../../.. && pwd)/SharedFrameworks/XCBuild.framework/Versions/A/PlugIns/XCBBuildService.bundle/Contents/PlugIns/XCBSpecifications.ideplugin/Contents/Resources/Embedded-Device.xcspec
 
 requireFile "$specificationFile" false
 
